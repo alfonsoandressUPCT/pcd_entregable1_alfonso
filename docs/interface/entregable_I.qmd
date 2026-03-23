@@ -19,7 +19,7 @@ format:
       - margin=2.5cm
       - footskip=1cm
     listings: true
-    colorlinks: false
+    colorlinks: true
     toc: true
     toc-title: "Índice de Contenidos"
     toc-depth: 7
@@ -100,3 +100,131 @@ Durante todo el desarrollo del proyecto deberá usarse git como sistema de contr
 
 # Desarrollo del Proyecto
 
+## Preparación del Entorno de Trabajo
+
+### Creación del Repositorio Remoto y Local
+
+Vamos a comenzar con el desarrollo del proyecto creando el entorno de trabajo adecuado para el desarrollo del mismo. En primer lugar, empezaremos preparando  el entorno de la nube creando repositorio público en GitHub, titulado \texttt{pcd\_entregable1\_alfonsoandres}, el cual podrás visitar [haciendo clic aquí](https://github.com/alfonsoandressUPCT/pcd_entregable1_alfonso.git). Posteriormente, vamos a preparar el entorno local de desarrollo, ejecutando los siguientes comandos en la terminal:
+
+```bash
+# Inicializamos el repositorio local
+git init
+
+# Configuramos el usuario de git
+git config --global user. email "alfonsoandres.gimenez@edu.upct.es"
+git config --global user. name "alfonsoandressUPCT"
+
+# Aseguramos que la rama principal se llame main
+git branch -M main
+
+# Agregamos el repositorio remoto
+git remote add origin https://github.com/alfonsoandressUPCT/pcd_entregable1_alfonso.git
+
+# Traemos los cambios del repositorio remoto
+git pull origin main
+
+# Realizamos el primer commit con el README.md primitivo
+git add .
+git commit -m "Añadiendo archivos iniciales del entregable 1"
+git push -u origin main
+```
+
+### Configuración del Archivo README.md 
+
+Una vez fusionado el repositorio remoto con el local, ya podemos trabajar con normalidad en el desarrollo del proyecto. Y lo primero que haremos será establecer un README.md profesional que especifique el proyecto, su estructura y su uso. Para ello, se ha realizado un commit para subir el README.md al repositorio remoto:
+
+```bash
+git add README.md
+git commit -m "Modificando el README inicial del proyecto"
+git push -u origin main
+```
+
+\newpage
+
+### Configuración del Archivo .gitignore 
+
+A continuación, hemos añadido el archivo \texttt{.gitignore} para evitar subir al repositorio remoto archivos innecesarios. Como subimos por error archivos de tipo \texttt{.DS\_Store} los eliminamos también. Para ello, hemos ejecutado los siguientes comandos:
+
+```bash
+# Eliminamos los archivos .DS_Store del repositorio
+git rm --cached . DS_Store
+
+# Realizamos un commit para eliminar los archivos .DS_Store del rastreo y añadir el .gitignore
+git add .gitignore
+git commit -m "Añadir .gitignore y eliminar .DS_Store del rastreo"
+```
+
+### Creación de la Estructura de Carpetas y Plantillas de Documentación
+
+Ahora, creamos la estructura de carpetas del proyecto, la cual se muestra a continuación:
+
+```
+pcd_entregable1_alfonso/
+|-- README.md            # Archivo de documentación principal del proyecto
+|-- .gitignore           # Archivo para ignorar archivos innecesarios en el repositorio
+|-- docs                 # Documentación del proyecto
+|   |-- data             # Datos utilizados en la documentación
+|   |-- images           # Imágenes utilizadas en la documentación
+|   |-- interface        # Contenido en bruto de la documentación
+|   `-- uml              # Diagramas UML del proyecto
+|-- src                  # Código fuente del proyecto
+`-- tests                # Tests unitarios del proyecto
+```
+
+Y, posteriormente, realizamos un commit para subir la estructura de carpetas al repositorio remoto:
+
+```bash
+git add .
+git commit -m "Definir estructura de carpetas y archivos base del proyecto"
+git push origin main
+```
+
+Seguimos añadiendo los archivos plantilla de la documentación en sus respectivas carpetas, y realizando commits para subirlos al repositorio remoto de la siguiente forma:
+
+```bash
+git add .
+git commit -m "Terminando la pre-configuración pre-documentación para preparar el entorno para la creación y desarrollo del proyecto"
+git push -u origin main
+```
+
+### Creación del Tag de Pre - Configuración del Proyecto
+
+Una vez que ya hemos terminado la pre-configuración del proyecto, y el repositorio remoto se encuentra completamente preparado para comenzar con el desarrollo del proyecto y es por eso que vamos a crear un \texttt{tag} para marcar esta fase de pre-configuración del proyecto, y así poder tener un control de versiones más exhaustivo y poder volver a esta fase en caso de ser necesario. Para ello, ejecutamos el siguiente comando: 
+
+```bash
+git tag -a v0.1.0-init -m "Configuración inicial del entorno y documentación"
+```
+
+Finalmente, la estructura del entorno pre-configurado del proyecto se muestra a continuación:
+
+```
+pcd_entregable1_alfonso/
+|-- README.md
+|-- .gitignore
+|-- docs
+|   |-- data
+|   |   `-- header_entregable_I.tex
+|   |-- images
+|   |-- interface
+|   |   |-- entregable_I.qmd
+|   |   `-- entregable_I.pdf
+|   `-- uml
+|-- src
+`-- tests
+```
+
+### Subida de los Archivos de Documentación al Repositorio Remoto
+
+Una vez que ya hemos terminado la pre-configuración del proyecto, y el entorno de desarrollo se encuentra completamente preparado para comenzar con el desarrollo del proyecto, vamos a subir los archivos de documentación hasta este apartado al repositorio remoto. Para ello, ejecutamos el siguiente comando:
+
+```bash
+git add docs/data/header_entregable_I.tex docs/interface/entregable_I.pdf docs/interface/entregable_I.qmd
+```
+### Creación de la Rama de Desarrollo
+
+Una vez que ya hemos subido los archivos de documentación de la preparación del proyecto, vamos a crear la rama de desarrollo, la cual se llamará \texttt{development}, y en la que se realizará todo el desarrollo del proyecto. Para ello, ejecutamos el siguiente comando:
+
+```bash
+# Creamos y nos desplazamos a la rama de desarrollo
+git checkout -b development
+```
