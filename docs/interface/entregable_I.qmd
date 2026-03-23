@@ -1,0 +1,102 @@
+---
+title: "Programación Orientada a Objetos con Python"
+subtitle: "Programación para Ciencia de Datos - Entregable I"
+author: "Alfonso Andrés"
+format:
+  pdf:
+    documentclass: article
+    papersize: a4
+    pdf-engine: lualatex
+    mainfont: "Latin Modern Roman"
+    fontsize: 9pt
+    language: spanish
+    execute:
+      echo: true
+      output: true
+    jupyter: python3
+    geometry: 
+      - a4paper
+      - margin=2.5cm
+      - footskip=1cm
+    listings: true
+    colorlinks: false
+    toc: true
+    toc-title: "Índice de Contenidos"
+    toc-depth: 7
+    number-sections: true
+    include-in-header: ../data/header_entregable_I.tex
+theme_number: 7
+---
+
+\newpage
+\mbox{} 
+\newpage
+
+# Enunciado
+
+Nos contratan en el *Imperio Galáctico* para hacer un software que gestione el mantenimiento mecánico de la flota espacial. Esta, está compuesta por diferentes tipos de naves que se muestran a continuación. Cada nave se identifica con un **nombre *(texto)*** y lleva asociado un **catálogo con los nombres de las piezas de repuesto *(lista de texto)***. Además, los diferentes tipos de nave tienen unas propiedades específicas, que se muestran a continuación:
+
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|l|l|}
+    \hline
+    \textbf{Tipo de Nave}              & \textbf{Propiedades}                               \\ \hline
+    \multirow{3}{*}{Estación Espacial} & Tripulación (número)                               \\
+                                       & Pasaje (número)                                    \\
+                                       & Ubicación (Endor, Cúmulo Raimos, Nebulosa Kaliida) \\ \hline
+    \multirow{3}{*}{Nave estelar}      & Tripulación (número)                               \\
+                                       & Pasaje (número)                                    \\
+                                       & Clase (Ejecutor, Eclipse, Soberano)                \\ \hline
+    Caza estelar                       & Dotación (número)                                  \\ \hline
+    \end{tabular}
+    \caption{Propiedades de los Diferentes Tipos de Naves Imperiales.}
+\end{table}
+
+Todas las unidades de combate imperiales (esto es, no sólo las naves, sino también vehículos terrestres y demás) tienen un **identificador de combate *(texto)***, y una **clave para transmisión cifrada *(número)***.
+
+Los distintos repuestos disponibles se encuentran localizados en almacenes, que están identificados por un **nombre *(texto)*** y ubicados en una **localización *(texto)***. Cada almacén dispone de un **catálogo de piezas de repuesto *(lista de repuestos)***, cada una de las cuales incluye un **nombre de repuesto *(texto)***, un **proveedor *(texto)***, la **cantidad de repuestos disponibles *(número, atributo privado)***, así como su **precio *(número)***.
+
+Los usuarios del sistema informático *MiImperio* serán tanto los **comandantes de las naves** (para consultar y adquirir repuestos) como los **operarios de almacén** (para mantener la lista de repuestos y los stocks, en los diferentes almacenes).
+
+\newpage
+
+# Tareas a Realizar
+
+## Tarea 1
+
+Diseña el diagrama de clases, de caso de uso y de secuencia en UML con la herramienta \texttt{Umlet}, vista en clase. En este sentido, se debe explotar en la medida de lo posible todas las técnicas POO (herencia simple y/o múltiple, clases abstractas, enumeraciones, visibilidad, etc.). **(3 puntos)**
+
+## Tarea 2
+
+Implementa en Python el sistema de gestión de mantenimiento de la flota. Se ha de incluir el código básico de prueba que muestre mediante impresión en pantalla la instanciación correcta de las diferentes clases del sistema.
+
+## Tarea 3
+
+El código debe de incluir una gestión de excepciones que desencadene, capture y trate de forma adecuada diferentes errores que puedan ocurrir durante la ejecución del sistema, así como un conjunto de tests unitarios definidos con pytest. **(4,5 puntos)**
+
+## Tarea 4
+
+Durante todo el desarrollo del proyecto deberá usarse git como sistema de control de versiones. **(2,5 puntos)** Deberán realizarse las acciones siguientes:
+
+\begin{enumerate}[label=\textbf{\alph*.}, leftmargin=2em]
+    
+    \item Definición dos ramas dentro del repositorio \textbf{(1 punto)}:
+
+    \begin{enumerate}[label=\textbf{\roman*.}, leftmargin=2em]
+        
+        \item Una rama \texttt{main} (principal) que contendrá el proyecto final.
+
+        \item Una rama llamada \textbf{development} en donde se realizarán los \texttt{commits} durante la fase de desarrollo del proyecto. 
+    
+    \end{enumerate}
+
+    \item Definición de dos tags dentro de la rama \texttt{development} (se deja a criterio del estudiante decidir en qué momento del proyecto realizarlos). \textbf{(0.5 puntos)}
+
+    \item Creación de un repositorio público en GitHub, titulado \texttt{pcd\_entregable1\_<nombresdelosmiembrosdelgrupo>}. \textbf{(1 punto)}
+
+\end{enumerate}
+
+\newpage
+
+# Desarrollo del Proyecto
+

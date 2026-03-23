@@ -1,0 +1,196 @@
+\usepackage{graphicx}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{thmtools}
+\usepackage{tocloft}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{eso-pic}
+\usepackage{transparent}
+\usepackage{fontawesome5}
+\usepackage{nameref}
+\usepackage{babel}
+\usepackage{hyperref}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{multirow}
+
+% DEFINIR VARIABLES DEL TEMA (Antes de usarlas)
+\newcommand{\asignaturename}{Programación para Ciencia de Datos} % <-- Cambia esto para el nombre de la asignatura
+\newcommand{\coursenumber}{2º } % <-- Cambia esto para el curso
+\newcommand{\courseyear}{2025/2026} % <-- Cambia esto para el año académico
+
+% Definimos la marca de agua
+\newcommand\BackgroundPic{%
+  \put(0,0){%
+    \parbox[b][\paperheight]{\paperwidth}{
+      \vfill
+      \centering
+      {\transparent{0.05}\rotatebox{-45}{\fontsize{80}{100}\selectfont\textcolor{gray}{\textbf{Alfonso Andrés}}}}%
+      \vfill
+    }
+  }
+}
+
+% Aplicamos la marca de agua a todas las páginas excepto la portada
+\pagestyle{fancy} 
+\fancyhf{}
+\fancyhead[L]{\textbf{\asignaturename}}
+\fancyhead[R]{\textbf{Entregable I}}
+\fancyfoot[L]{\textbf{Grado en Ciencia e Ingeniería de Datos (UPCT) - \coursenumber Curso - \courseyear}}
+\fancyfoot[R]{\textbf{\thepage}}
+
+% Redefinimos las líneas de encabezado y pie de página
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Aplicamos el mismo estilo a las páginas especiales
+\fancypagestyle{plain}{
+  \fancyhf{}
+  \fancyhead[L]{\textbf{\asignaturename}}
+  \fancyhead[R]{\textbf{Entregable I}}
+  \fancyfoot[L]{\textbf{Grado en Ciencia e Ingeniería de Datos (UPCT) - \coursenumber Curso - \courseyear}}
+  \fancyfoot[R]{\textbf{\thepage}}
+  \renewcommand{\headrulewidth}{0.4pt}
+  \renewcommand{\footrulewidth}{0.4pt}
+}
+
+% Guardamos el comando original de maketitle antes de redefinirlo
+\let\oldmaketitle\maketitle
+
+% Redefinimos el comando maketitle para tener una portada limpia más una segunda página en blanco más restaurar estilos después
+\renewcommand{\maketitle}{%
+  \ClearShipoutPictureBG% 1. Asegurar que no hay marca de agua
+  \oldmaketitle% 2. Generar el título (Página 1)
+  \thispagestyle{empty}% 3. Quitar encabezados/pies de la portada
+  \clearpage% 4. Salto de página (Fin de la portada)
+
+  % --- INICIO DE PÁGINA 2 EN BLANCO ---
+  \thispagestyle{empty}% 5. Quitar encabezados/pies de la segunda página
+  \null% 6. Poner algo invisible (necesario para que LaTeX cree la página)
+  \clearpage% 7. Salto de página (Fin de la página en blanco)
+  % --- FIN DE PÁGINA 2 EN BLANCO ---
+
+  \AddToShipoutPictureBG{\BackgroundPic}% 8. Restaurar marca de agua (Página 3 en adelante)
+  % Nota: Si quieres que la numeración empiece en 1 en la pág 3, descomenta la siguiente línea:
+  % \setcounter{page}{1} 
+}
+
+% Guardamos el comando original de tableofcontents antes de redefinirlo
+\let\oldtableofcontents\tableofcontents
+
+% Redefinimos el comando tableofcontents para añadir un salto de página al final
+\renewcommand{\tableofcontents}{\oldtableofcontents\clearpage}
+
+% Editamos la profundidad de los apartados en la tabla de contenidos
+\setcounter{tocdepth}{5}
+
+% Añadir puntos suspensivos (leaders) a todos los niveles en la tabla de contenidos
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubsubsecleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftparaleader}{\cftdotfill{\cftdotsep}}
+\renewcommand{\cftsubparaleader}{\cftdotfill{\cftdotsep}}
+
+% Ajustar el espacio entre el número y el título en todos los niveles
+\setlength{\cftsecnumwidth}{3em}
+\setlength{\cftsubsecnumwidth}{4em}
+\setlength{\cftsubsubsecnumwidth}{5em}
+\setlength{\cftparanumwidth}{6em}
+\setlength{\cftsubparanumwidth}{7em}
+
+% Poner en negrita TODAS las entradas del índice en todos los niveles
+\renewcommand{\cftsecfont}{\bfseries}
+\renewcommand{\cftsecpagefont}{\bfseries}
+\renewcommand{\cftsubsecfont}{\bfseries}
+\renewcommand{\cftsubsecpagefont}{\bfseries}
+\renewcommand{\cftsubsubsecfont}{\bfseries}
+\renewcommand{\cftsubsubsecpagefont}{\bfseries}
+\renewcommand{\cftparafont}{\bfseries}
+\renewcommand{\cftparapagefont}{\bfseries}
+\renewcommand{\cftsubparafont}{\bfseries}
+\renewcommand{\cftsubparapagefont}{\bfseries}
+
+% Definimos el estilo visual de los teoremas
+\newtheoremstyle{estilosinnumero}
+  {\topsep}                       % Espacio vertical ANTES del entorno
+  {\topsep}                       % Espacio vertical DESPUÉS del entorno
+  {\normalfont\leftskip=2em}      % FUENTE CUERPO: Sangría de 2em para todo el texto
+  {-2em}                          % SANGRÍA TÍTULO: Restamos 2em para pegar el título al margen
+  {\bfseries}                     % FUENTE TÍTULO: Negrita
+  {}                              % PUNTUACIÓN: Vacío
+  {0pt}                           % SEPARACIÓN: 0pt (Necesario para evitar errores de compilación)
+  {%
+    \thmname{#1}\thmnote{ (#3)}   % Imprimir "Teorema (Nombre)"
+    \\[0.5em]                     % Salto de línea + espacio vertical de 0.5em antes del cuerpo
+  }
+
+% Aplicamos el estilo
+\theoremstyle{estilosinnumero}
+
+% Creamos los entornos no enumerados
+\newtheorem*{teorema}{Teorema}
+\newtheorem*{proposicion}{Proposición}
+\newtheorem*{lema}{Lema}
+\newtheorem*{corolario}{Corolario}
+\newtheorem*{definicion}{Definición}
+\newtheorem*{ejemplo}{Ejemplo}
+\newtheorem*{observacion}{Observación}
+\newtheorem*{nota}{Nota}
+\newtheorem*{demostracion}{Demostración}
+
+% --- CONFIGURACIÓN DE CAPTIONS (TÍTULOS) Y CÓDIGO ---
+
+% 1. Traducción de etiquetas al español
+\renewcommand{\lstlistingname}{Code}
+
+% 2. Estilo UNIFICADO para Tablas y Códigos
+% Esto hace que ambos se vean idénticos (Centrados, Etiqueta en Negrita)
+\captionsetup{
+    labelfont=normalfont,        % "Tabla 1" o "Código 1" en Negrita
+    textfont=normalfont, % El texto de la descripción en fuente normal
+    format=plain,        % Formato estándar
+    justification=centering, % Centrado (igual que en tu captura)
+    labelsep=colon,      % Separador de dos puntos ": "
+    figurename=Figura,   % Por si usas imágenes
+    tablename=Tabla
+}
+
+% 3. Definición de colores para el código
+\definecolor{backcolour}{rgb}{0.96, 0.96, 0.96}
+\definecolor{codegreen}{rgb}{0, 0.6, 0}
+\definecolor{codegray}{rgb}{0.5, 0.5, 0.5}
+\definecolor{codepurple}{rgb}{0.58, 0, 0.82}
+\definecolor{codeblue}{rgb}{0, 0, 0.8}
+
+% 4. Configuración del entorno de código (Listings)
+\lstdefinestyle{academico}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{codeblue}\bfseries,
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\fontsize{7}{9}\selectfont,
+    breakatwhitespace=false,
+    breaklines=true,
+    % --- AQUÍ ESTÁ EL TRUCO PARA QUE PAREZCA UNA TABLA ---
+    captionpos=b,        % 'b' = bottom (Abajo). Pon 't' si prefieres Arriba.
+    abovecaptionskip=10pt, % Espacio entre el código y el título
+    % -----------------------------------------------------
+    keepspaces=true,
+    numbers=none,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2,
+    frame=single,
+    rulecolor=\color{black!50},
+    literate={ñ}{{\~n}}1 {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+}
+
+\lstset{style=academico}
+% --- FIN CONFIGURACIÓN ---
