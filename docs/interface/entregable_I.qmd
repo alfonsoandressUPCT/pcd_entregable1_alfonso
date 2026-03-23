@@ -232,3 +232,19 @@ Una vez que ya hemos subido los archivos de documentación de la preparación de
 # Creamos y nos desplazamos a la rama de desarrollo
 git checkout -b development
 ```
+
+Ahora, nuestra filosofía de trabajo para toda la documentación se basará en desarrollarla en la rama \texttt{main} y que la rama \texttt{development} sea una copia de la rama \texttt{main} sólo para la documentación, mientras que el desarrollo del código se realizará en la rama \texttt{development}. Para ello, siempre que realicemos un cambio en la documentación, lo haremos en la rama \texttt{main} y posteriormente fusionaremos los cambios a la rama \texttt{development} para mantenerla actualizada con la documentación. Para ello, ejecutamos el siguiente comando cada vez que realicemos un cambio en la documentación:
+
+```bash
+# Sabiendo que estamos en la rama main, realizamos un commit con los cambios en la documentación
+git add docs/data/header_entregable_I.tex docs/interface/entregable_I.pdf docs/interface/entregable_I.qmd
+git commit -m "Subiendo los archivos de documentación"
+git push # main
+
+# Nos desplazamos a la rama de desarrollo
+git checkout development
+
+# Fusionamos los cambios de la rama main a la rama de desarrollo
+git merge main
+git push # development
+```
