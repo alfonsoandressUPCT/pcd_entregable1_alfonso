@@ -219,6 +219,10 @@ Una vez que ya hemos terminado la pre-configuración del proyecto, y el entorno 
 
 ```bash
 git add docs/data/header_entregable_I.tex docs/interface/entregable_I.pdf docs/interface/entregable_I.qmd
+
+git commit -m "Subiendo los archivos de documentación de la preparación del proyecto"
+
+git push -u origin main
 ```
 ### Creación de la Rama de Desarrollo
 
