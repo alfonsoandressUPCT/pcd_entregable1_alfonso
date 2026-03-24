@@ -411,3 +411,11 @@ git commit -m "Subiendo los diagramas UML del sistema de gestión de mantenimien
 # Subimos los cambios a la rama main
 git push # main
 ```
+
+### Creación del Tag de Diagramas UML
+
+Una vez que ya hemos subido los diagramas UML al repositorio remoto, vamos a crear un \texttt{tag} en la rama \texttt{main} para marcar esta fase de diseño del proyecto, y así poder tener un control de versiones más exhaustivo y poder volver a esta fase en caso de ser necesario. Para ello, ejecutamos el siguiente comando:
+
+```bash
+git tag -a v0.2.0-design -m "Diseño de los diagramas UML del sistema de gestión de mantenimiento de la flota espacial"
+```
