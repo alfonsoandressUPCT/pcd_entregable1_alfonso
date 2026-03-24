@@ -248,3 +248,166 @@ git checkout development
 git merge main
 git push # development
 ```
+
+\newpage
+
+## Diseño del Diagrama de Clases, de Caso de Uso y de Secuencia en UML
+
+Para hablar del diseño del diagrama de clases, de caso de uso y de secuencia en UML, vamos a crear un nuevo apartado para cada uno de ellos, y así poder explicarlos de forma detallada y clara. Cada uno de los diagramas los hemos realizado con código de \texttt{mermaid} debido a la incompatibilidad de la herramienta \texttt{Umlet} con mi sistema operativo \texttt{macOS}, y a que el código de \texttt{mermaid} es mucho más fácil de integrar en la documentación, y además es mucho más fácil de modificar y mantener a lo largo del desarrollo del proyecto.
+
+### Diagrama de Clases UML
+
+Vamos a comenzar con el diseño del diagrama de clases UML. Para ello, hemos diseñado el diagrama de clases UML del sistema de gestión de mantenimiento de la flota espacial *MiImperio*, el cual se muestra a continuación:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{../images/diagrama_clases.png}
+  \caption{Diagrama de Clases UML del Sistema de Gestión de Mantenimiento de la Flota Espacial.}
+  \label{fig:diagrama_clases}
+\end{figure}
+
+\newpage
+
+Podemos descifrar el diagrama de clases UML del sistema *MiImperio* en tres bloques principales, cada uno de ellos con sus propias características y relaciones entre las clases, los cuales vamos a describir a continuación:
+
+\begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=2em]
+    
+    \item \textbf{Unidades de Combate y Naves Espaciales.} El diseño establece una sólida estructura de herencia para maximizar la reutilización del código:
+
+    \begin{itemize}[label=$\bullet$, leftmargin=2em]
+        
+      \item \textbf{UnidadCombate \texttt{(Clase Abstracta)}:} Actúa como la raíz de la jerarquía, garantizando que todo vehículo o nave imperial posea un identificador de combate y una clave cifrada.
+
+      \item \textbf{Nave \textbf{(Clase Abstracta)}:} Hereda de \texttt{UnidadCombate} y añade los atributos comunes de toda nave, que son el nombre y el catálogo base de repuestos. De ella descienden directamente los \texttt{CazaEstelar}, definiendo su atributo propio de \texttt{dotacion}, y la clase abstracta \texttt{NaveTripulada}.
+
+      \item \textbf{NaveTripulada \textbf{(Clase Abstracta)}:} Se introduce como una capa intermedia para agrupar los atributos \texttt{tripulacion} y \texttt{pasaje}, evitando la duplicidad de código. De esta clase heredan las implementaciones concretas de \texttt{EstacionEspacial} y \texttt{NaveEstelar}.
+
+      \item \textbf{Enumeraciones \texttt{(<<enumeration>>)}:} Las propiedades específicas como la \texttt{Ubicacion} de las estaciones y la \texttt{ClaseNave} de las naves estelares se han modelado mediante tipos enumerados para restringir y validar los valores permitidos según las normativas del Imperio.
+    
+    \end{itemize}
+    
+    \item \textbf{Inventario de Almacenes y Repuestos.} Este bloque gestiona los recursos mecánicos del sistema:
+
+    \begin{itemize}[label=$\bullet$, leftmargin=2em]
+        
+      \item \textbf{Composición:} Existe una relación de composición fuerte con cardinalidad \texttt{1..*} entre \texttt{Almacen} y \texttt{Repuesto}. Es decir, un almacén contiene una o más piezas de repuesto, y cada pieza de repuesto no puede existir sin estar asociada a un almacén.
+
+      \item \textbf{Encapsulamiento:} En la clase \texttt{Repuesto}, el atributo \texttt{cantidad\_disponible} se ha declarado como privado (marcado con \texttt{-}). Para acceder o modificar el stock de forma segura, se han implementado los métodos públicos (getters y setters) como \texttt{get\_cantidad\_disponible()} y \texttt{set\_cantidad\_disponible()}.
+
+    \end{itemize}
+    
+    \item \textbf{Usuarios e Interacciones.} Los actores del sistema se han modelado mediante otra jerarquía de herencia:
+
+    \begin{itemize}[label=$\bullet$, leftmargin=2em]
+
+      \item \textbf{Usuario (Clase Abstracta):} Agrupa el atributo común \texttt{nombre}.
+
+      \item \textbf{Comandante y OperarioAlmacen:} Heredan de Usuario y definen los métodos específicos de su rol como \texttt{adquirir\_repuesto()} o \texttt{actualizar\_stock()}.
+
+      \item \textbf{Dependencias:} Se han trazado relaciones de dependencia (flechas discontinuas \texttt{..>}) desde los usuarios hacia la clase \texttt{Almacen}, indicando que los métodos de los usuarios interactúan y gestionan instancias de los almacenes para operar sobre el inventario.
+
+    \end{itemize}
+
+\end{enumerate}
+
+\newpage
+
+### Diagrama de Casos de Uso UML
+
+Vamos a continuar con el diseño del diagrama de casos de uso UML. Para ello, hemos diseñado el diagrama de casos de uso UML del sistema de gestión de mantenimiento de la flota espacial *MiImperio*, el cual se muestra a continuación:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.5\textwidth]{../images/diagrama_casos_uso.png}
+  \caption{Diagrama de Casos de Uso UML del Sistema de Gestión de Mantenimiento de la Flota Espacial.}
+  \label{fig:diagrama_casos_uso}
+\end{figure}
+
+En el diagrama de casos de uso definimos los requisitos funcionales del sistema informático *MiImperio*, delimitando claramente las acciones que puede realizar cada perfil de usuario y cómo el sistema responde a dichas peticiones. El modelo se estructura en los siguientes elementos clave:
+
+\begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=2em]
+
+  \item \textbf{Frontera del Sistema (System Boundary):} Representada por el contenedor principal "Sistema informático MiImperio", establece el límite lógico del software. Todo lo que ocurre dentro de esta caja es responsabilidad del programa, mientras que los actores que inician las acciones se sitúan en el exterior.
+
+  \item \textbf{Actores del Sistema:} Se han identificado dos perfiles de usuario principales que interactúan de forma independiente con la plataforma:
+
+  \begin{itemize}[label=$\bullet$, leftmargin=2em]
+
+    \item \textbf{Comandante:} Representa a los oficiales al mando de las unidades imperiales. Sus operaciones de negocio consisten en interactuar con los almacenes para \texttt{Consultar repuestos} y \texttt{Adquirir repuestos} para su flota.
+    
+    \item \textbf{Operario de Almacén:} Es el perfil logístico encargado de la persistencia de datos y el inventario. Sus responsabilidades directas son \texttt{Mantener la lista de repuestos} (dar de alta, modificar o eliminar piezas del catálogo) y \texttt{Mantener stocks de almacén} (ajustar las cantidades físicas disponibles).
+  
+  \end{itemize}
+
+  \item \textbf{Relaciones de Dependencia \texttt{(<<include>>)}:} Para evitar la redundancia funcional y garantizar la consistencia de los datos, se ha modelado el caso de uso \texttt{Adquirir repuestos} como una operación compleja que desencadena obligatoriamente otros procesos internos. Esto se representa mediante relaciones con el estereotipo \texttt{<<include>>}:
+
+  \begin{itemize}[label=$\bullet$, leftmargin=2em]
+    
+    \item \textbf{Inclusión de Consulta:} Al intentar adquirir un repuesto, el sistema ejecuta implícitamente la acción de \texttt{Consultar repuestos} para verificar su existencia en el catálogo y obtener su precio actual.
+    
+    \item \textbf{Inclusión de Actualización de Stock:} Una vez confirmada la adquisición por parte del Comandante, el sistema llama obligatoriamente al proceso de \texttt{Mantener stocks de almacén} para descontar de forma automática la cantidad comprada del inventario del almacén, asegurando que el stock sea siempre coherente y en tiempo real.
+  
+  \end{itemize}
+
+\end{enumerate}
+
+\newpage
+
+### Diagrama de Secuencia UML
+
+Vamos a finalizar con el diseño del diagrama de secuencia UML. Para ello, hemos diseñado el diagrama de secuencia UML del sistema de gestión de mantenimiento de la flota espacial *MiImperio*, el cual se muestra a continuación:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.65\textwidth]{../images/diagrama_secuencia.png}
+  \caption{Diagrama de Secuencia UML del Proceso de Adquisición de Repuestos por parte del Comandante.}
+  \label{fig:diagrama_secuencia}
+\end{figure}
+
+El diagrama de secuencia modela el comportamiento dinámico del sistema para el escenario de \texttt{"Adquirir repuestos"}. En él se detalla cronológicamente el intercambio de mensajes entre los objetos instanciados, prestando especial atención a la validación de la lógica de negocio y la gestión de excepciones. El flujo temporal se divide en las siguientes fases operativas:
+
+\begin{enumerate}[label=\textbf{\arabic*.}, leftmargin=2em]
+
+  \item \textbf{Participantes y Líneas de Vida:} El escenario involucra a un actor externo \texttt{(Comandante)} interactuando con dos objetos internos del sistema: una instancia de \texttt{Almacen} y una instancia específica de \texttt{Repuesto}. Los rectángulos de activación sobre las líneas de vida indican el tiempo exacto en el que cada objeto tiene el control de la ejecución.
+
+  \item \textbf{Fase de Consulta Inicial (Pasos 1-2):} Antes de realizar una compra, el Comandante solicita ver las piezas disponibles mediante el mensaje \texttt{consultar\_repuestos()}. El objeto \texttt{Almacen} procesa la petición y devuelve el catálogo completo de repuestos, permitiendo al usuario decidir qué pieza necesita y en qué cantidad.
+
+  \item \textbf{Inicio de la Transacción y Validación (Pasos 3-5):} El Comandante inicia la transacción enviando el mensaje \texttt{adquirir\_repuesto(repuesto, cantidad)}. En este punto, el sistema demuestra un diseño fuertemente encapsulado: el \texttt{Almacen} no accede directamente al stock de la pieza, sino que le envía el mensaje \texttt{get\_cantidad\_disponible()} al objeto \texttt{Repuesto}. El repuesto responde entregando su \texttt{cantidad\_actual}.
+
+  \item \textbf{Toma de Decisiones y Gestión de Excepciones (Pasos 6-9):} Una vez conocida la cantidad física disponible, el flujo entra en un fragmento combinado de tipo \texttt{alt} (alternativa), que modela la lógica condicional (\texttt{if/else}) de la compra:
+    
+  \begin{itemize}[label=$\bullet$, leftmargin=2em]
+    
+    \item \textbf{Escenario de Éxito \texttt{(cantidad\_actual >= cantidad)}:} Si hay stock suficiente, el \texttt{Almacen} envía el mensaje \texttt{set\_cantidad\_disponible()} al \texttt{Repuesto}, calculando y pasándole el nuevo stock restante. Tras la confirmación interna, el almacén notifica al Comandante que la compra se ha realizado con éxito.
+    
+    \item \textbf{Escenario de Fallo \texttt{(cantidad\_actual < cantidad)}:} Si el Comandante solicita más unidades de las que físicamente existen, el sistema aborta la operación matemática. El \texttt{Almacen} interrumpe el flujo normal y lanza una excepción personalizada (\texttt{ExcepcionStockInsuficiente}) hacia el Comandante, garantizando que el inventario nunca adquiera valores negativos y cumpliendo con los requisitos de robustez del software.
+
+  \end{itemize}
+
+\end{enumerate}
+
+\newpage
+
+### Publicación de los Diagramas UML en el Repositorio Remoto
+
+Ahora que ya hemos diseñado los diagramas de clases, de caso de uso y de secuencia en UML, vamos a subirlos al repositorio remoto para tenerlos disponibles y poder consultarlos a lo largo del desarrollo del proyecto. Para ello, ejecutamos los siguientes comandos:
+
+```bash
+# Confirmamos que estamos en la rama main para subir los diagramas UML a la rama principal
+git checkout main
+
+# Añadimos los archivos de la documentación de los diagramas UML
+git add docs/data/header_entregable_I.tex docs/interface/entregable_I.pdf docs/interface/entregable_I.qmd
+
+# Añadimos las imágenes de los diagramas UML
+git add docs/images/diagrama_clases.png docs/images/diagrama_casos_uso.png docs/images/diagrama_secuencia.png
+
+# Añadimos los archivos de código de los diagramas UML
+git add docs/uml/diagrama_clases.mmd docs/uml/diagrama_casos_uso.mmd docs/uml/diagrama_secuencia.mmd
+
+# Realizamos un commit para subir los diagramas UML al repositorio remoto
+git commit -m "Subiendo los diagramas UML del sistema de gestión de mantenimiento de la flota espacial"
+
+# Subimos los cambios a la rama main
+git push # main
+```

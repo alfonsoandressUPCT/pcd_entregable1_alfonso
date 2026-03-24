@@ -1,0 +1,48 @@
+---
+config:
+  theme: base
+  themeVariables:
+    background: '#d7d7d7'
+    primaryColor: '#d7d7d7'
+    primaryTextColor: '#000000'
+    primaryBorderColor: '#000000'
+    lineColor: '#000000'
+    labelTextColor: '#000000'
+    noteBkgColor: '#ffffff'
+    noteTextColor: '#000000'
+    noteBorderColor: '#000000'
+  look: classic
+---
+sequenceDiagram
+    autonumber
+    actor C as Comandante
+    participant A as Almacen
+    participant R as Repuesto
+
+    Note over C, R: Escenario: Adquirir repuestos (con validación de stock)
+    %% Paso 1: Consultar el catálogo
+    C->>A: consultar_repuestos()
+    activate A
+    A-->>C: devuelve catalogo_repuestos (lista)
+    deactivate A
+
+    %% Paso 2: Intentar comprar
+    C->>A: adquirir_repuesto(repuesto, cantidad)
+    activate A
+    %% El almacén comprueba el stock de esa pieza concreta
+    A->>R: get_cantidad_disponible()
+    activate R
+    R-->>A: cantidad_actual
+    deactivate R
+
+    %% Bloque ALT: Toma de decisiones (Éxito vs Excepción)
+    alt cantidad_actual >= cantidad
+        A->>R: set_cantidad_disponible(cantidad_actual - cantidad)
+        activate R
+        R-->>A: confirmación de actualización
+        deactivate R
+        A-->>C: Compra realizada con éxito
+    else cantidad_actual < cantidad
+        A-->>C: lanza ExcepcionStockInsuficiente
+    end
+    deactivate A

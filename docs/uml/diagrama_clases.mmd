@@ -1,0 +1,107 @@
+---
+config:
+  theme: base
+  themeVariables:
+    background: '#d7d7d7'
+    primaryColor: '#d7d7d7'
+    primaryTextColor: '#000000'
+    primaryBorderColor: '#000000'
+    lineColor: '#000000'
+    labelTextColor: '#000000'
+    noteBkgColor: '#ffffff'
+    noteTextColor: '#000000'
+    noteBorderColor: '#000000'
+  look: classic
+  layout: elk
+  class:
+    hideEmptyMembersBox: false
+---
+classDiagram
+direction TB
+    class Ubicacion {
+	    ENDOR
+	    CUMULO_RAIMOS
+	    NEBULOSA_KALIIDA
+    }
+
+    class ClaseNave {
+	    EJECUTOR
+	    ECLIPSE
+	    SOBERANO
+    }
+
+    class UnidadCombate {
+	    + identificador_combate: str
+	    + clave_transmision_cifrada: int
+    }
+
+    class Nave {
+	    + nombre: str
+	    + catalogo_repuestos: list ~str~
+    }
+
+    class NaveTripulada {
+	    + tripulacion: int
+	    + pasaje: int
+    }
+
+    class EstacionEspacial {
+	    + ubicacion: Ubicacion
+    }
+
+    class NaveEstelar {
+	    + clase: ClaseNave
+    }
+
+    class CazaEstelar {
+	    + dotacion: int
+    }
+
+    class Repuesto {
+	    + nombre: str
+	    + proveedor: str
+	    - cantidad_disponible: int
+	    + precio: float
+	    + get_cantidad_disponible() int
+	    + set_cantidad_disponible(cantidad: int) void
+    }
+
+    class Almacen {
+	    + nombre: str
+	    + localizacion: str
+	    + catalogo_repuestos: list ~Repuesto~
+    }
+
+    class Usuario {
+	    + nombre: str
+    }
+
+    class Comandante {
+	    + consultar_repuestos(almacen: Almacen) list ~Repuesto~
+	    + adquirir_repuesto(almacen: Almacen, repuesto: Repuesto, cantidad: int) void
+    }
+
+    class OperarioAlmacen {
+	    + mantener_lista_repuestos(almacen: Almacen) void
+	    + actualizar_stock(almacen: Almacen, repuesto: Repuesto, cantidad: int) void
+    }
+
+	<<enumeration>> Ubicacion
+	<<enumeration>> ClaseNave
+	<<abstract>> UnidadCombate
+	<<abstract>> Nave
+	<<abstract>> NaveTripulada
+	<<abstract>> Usuario
+
+    UnidadCombate <|-- Nave
+    Nave <|-- NaveTripulada
+    Nave <|-- CazaEstelar
+    NaveTripulada <|-- EstacionEspacial
+    NaveTripulada <|-- NaveEstelar
+    EstacionEspacial ..> Ubicacion : usa
+    NaveEstelar ..> ClaseNave : usa
+    Usuario <|-- Comandante
+    Usuario <|-- OperarioAlmacen
+    Almacen "1" *-- "*" Repuesto : contiene
+    Comandante ..> Almacen : interactúa
+    OperarioAlmacen ..> Almacen : gestiona

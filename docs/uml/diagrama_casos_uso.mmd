@@ -1,0 +1,33 @@
+---
+config:
+  theme: base
+  themeVariables:
+    background: '#d7d7d7'
+    primaryColor: '#d7d7d7'
+    primaryTextColor: '#000000'
+    primaryBorderColor: '#000000'
+    lineColor: '#000000'
+    labelTextColor: '#000000'
+    noteBkgColor: '#ffffff'
+    noteTextColor: '#000000'
+    noteBorderColor: '#000000'
+  look: classic
+  layout: elk
+---
+flowchart BT
+ subgraph Sistema_MiImperio["Sistema informático MiImperio"]
+    direction TB
+        UC1(["Consultar repuestos"])
+        UC2(["Adquirir repuestos"])
+        UC3(["Mantener lista de repuestos"])
+        UC4(["Mantener stocks de almacén"])
+  end
+    C(("fa:fa-user Comandante")) --- UC1 & UC2
+    O(("fa:fa-user Operario de Almacén")) --- UC3 & UC4
+    UC2 -. &lt;&lt; include &gt;&gt; .-> UC1 & UC4
+
+     C:::actor
+     O:::actor
+    classDef actor fill:transparent,stroke:transparent,color:#000000
+    style C stroke:#000000
+    style O stroke:#000000
