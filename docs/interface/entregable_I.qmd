@@ -419,3 +419,128 @@ Una vez que ya hemos subido los diagramas UML al repositorio remoto, vamos a cre
 ```bash
 git tag -a v0.2.0-design -m "Diseño de los diagramas UML del sistema de gestión de mantenimiento de la flota espacial"
 ```
+
+\newpage
+
+## Implementación en Python del Sistema de Gestión de la Flota Espacial
+
+### Implementación del Código Fuente
+
+Comenzaremos la implementación del sistema diseñando la jerarquía de carpetas para el entorno de desarrollo. Todo el código de la aplicación se centralizará en el directorio \texttt{src}, el cual contendrá los siguientes archivos clave para el proyecto:
+
+\begin{itemize}[label=$\bullet$, leftmargin=2em]
+
+  \item \textbf{El archivo \texttt{main.py}:} Actuará como el punto de entrada principal del programa. En él se realizará la instanciación de las diferentes clases del sistema para demostrar su correcto funcionamiento y planificar el flujo de ejecución.
+  
+  \item \textbf{El archivo \texttt{flota.py}:} Constituye el núcleo del modelo. Contendrá la implementación de toda la jerarquía de clases relacionadas con la flota espacial, incluyendo las enumeraciones, las naves y las unidades de combate.
+  
+  \item \textbf{El archivo \texttt{\_\_init\_\_.py}:} Este archivo se incluye para que Python reconozca la carpeta \texttt{src} como un paquete modular, lo que nos permitirá importar las clases y funciones definidas en nuestro código fuente de forma limpia y estructurada.
+
+\end{itemize}
+
+La configuración final del directorio para el código fuente se detalla a continuación:
+
+```text
+src/
+|-- __init__.py          # Archivo para convertir la carpeta src en un paquete de Python
+|-- main.py              # Punto de entrada del programa
+`-- flota.py             # Implementación de las clases relacionadas con la flota espacial
+```
+
+\newpage
+
+### Ejecución del Código Fuente
+
+Como el código fuente lo hemos documentado y le hemos añadido  anotaciones en sus propios archivos \texttt{flota.py} y \texttt{main.py}, vamos a inicializar el sistema de gestión mecánica y ejecutar la prueba del sistema, basta con situarse en la \texttt{raíz} del proyecto y ejecutar el archivo principal mediante el intérprete de Python:
+
+```bash
+# Desde la raíz del proyecto (pcd_entregable1_alfonso)
+python3 src/main.py
+```
+
+Y, obtendríamos la siguiente salida en la terminal:
+
+```
+==================================================
+SISTEMA DE GESTIÓN MECÁNICA - MiImperio
+==================================================
+
+[1] INSTANCIANDO LA FLOTA ESPACIAL...
+	-> Creada Estación: Estrella de la Muerte en Endor
+	-> Creada Nave Estelar: Ejecutor Supremo clase Ejecutor
+	-> Creado Caza: Caza TIE Alfa con dotación de 1
+
+[2] CONFIGURANDO ALMACENES Y PERSONAL...
+	-> Almacén 'Almacén Imperial Central' ubicado en Coruscant listo para operar.
+	-> Operario 'TK-421' listo para gestionar el inventario.
+	-> Comandante 'Darth Vader' listo para operar.
+
+[3] OPERARIO ACTUALIZANDO INVENTARIO...
+	-> Repuesto 'Motor Iónico TIE' añadido a Almacén Imperial Central con stock inicial de 50 unidades.
+	-> Repuesto 'Panel Solar TIE' añadido a Almacén Imperial Central con stock inicial de 10 unidades.
+
+[4] COMANDANTE ADQUIRIENDO REPUESTOS...
+	-> Intentando comprar 20 unidades de 'Motor Iónico TIE'...
+		Éxito: Se han adquirido 20 unidades de 'Motor Iónico TIE'. Disponibles restantes: 30.
+	-> Intentando comprar 20 unidades de 'Panel Solar TIE'...
+		Fracaso: Stock insuficiente para 'Panel Solar TIE'. Solicitados: 20, Disponibles: 10.
+
+==================================================
+FIN DE LA SIMULACIÓN
+==================================================
+```
+
+También, podemos ver este resultado de la terminal en la siguiente captura de pantalla:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.8\textwidth]{../images/salida_terminal.png}
+  \caption{Salida en la Terminal tras Ejecutar el Archivo Principal del Proyecto.}
+  \label{fig:salida_terminal}
+\end{figure}
+
+\newpage
+
+### Creación del Tag de Implementación del Código Fuente
+
+Una vez que ya hemos implementado el código fuente del sistema de gestión de mantenimiento de la flota espacial, vamos a publicarlo en nuestro repositorio remoto y a crear un \texttt{tag} en la rama \texttt{development} para marcar esta fase de implementación del proyecto. Para ello, ejecutamos los siguientes comandos:
+
+```bash
+# Confirmamos que estamos en la rama de desarrollo para subir el código fuente a la rama de desarrollo
+git checkout development
+
+# Añadimos los archivos de código fuente
+git add src/__init__.py src/flota.py src/main.py
+
+# Realizamos un commit para subir el código fuente al repositorio remoto
+git commit -m "Implementación del código fuente del sistema de la flota espacial"
+
+# Subimos los cambios a la rama development
+git push # development
+
+# Creamos un tag para marcar la fase de implementación del código fuente
+git tag -a v0.3.0-implementation -m "Implementación del código fuente del sistema de la flota espacial"
+```
+
+Finalmente, publicamos la documentación de la implementación del código fuente en el repositorio remoto en la rama \texttt{main} para que esté disponible para su consulta, y posteriormente fusionamos los cambios a la rama de desarrollo para mantenerla actualizada con la documentación. Para ello, ejecutamos los siguientes comandos:
+
+```bash
+# Confirmamos que estamos en la rama main para subir la documentación
+git checkout main
+
+# Añadimos los archivos de la documentación de la implementación del código fuente
+git add docs/data/header_entregable_I.tex docs/interface/entregable_I.pdf docs/interface/entregable_I.qmd
+
+# Realizamos un commit para subir la documentación del código fuente al repositorio remoto
+git commit -m "Subiendo la documentación de la implementación del código fuente del sistema de gestión de mantenimiento de la flota espacial"
+
+# Subimos los cambios a la rama main
+git push # main
+
+# Nos desplazamos a la rama de desarrollo
+git checkout development
+
+# Fusionamos los cambios de la rama main a la rama de desarrollo
+git merge main
+git push # development
+```
