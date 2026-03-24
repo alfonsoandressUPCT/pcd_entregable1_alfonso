@@ -529,7 +529,7 @@ Finalmente, publicamos la documentación de la implementación del código fuent
 git checkout main
 
 # Añadimos los archivos de la documentación de la implementación del código fuente
-git add docs/data/header_entregable_I.tex docs/interface/entregable_I.pdf docs/interface/entregable_I.qmd
+git add docs/data/header_entregable_I.tex docs/interface/entregable_I.pdf docs/interface/entregable_I.qmd docs/images/salida_terminal.png
 
 # Realizamos un commit para subir la documentación del código fuente al repositorio remoto
 git commit -m "Subiendo la documentación de la implementación del código fuente del sistema de gestión de mantenimiento de la flota espacial"
