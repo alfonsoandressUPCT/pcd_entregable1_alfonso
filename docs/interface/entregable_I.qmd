@@ -192,7 +192,11 @@ git push -u origin main
 Una vez que ya hemos terminado la pre-configuración del proyecto, y el repositorio remoto se encuentra completamente preparado para comenzar con el desarrollo del proyecto y es por eso que vamos a crear un \texttt{tag} para marcar esta fase de pre-configuración del proyecto, y así poder tener un control de versiones más exhaustivo y poder volver a esta fase en caso de ser necesario. Para ello, ejecutamos el siguiente comando: 
 
 ```bash
+# Creamos un tag para marcar la fase de pre-configuración del proyecto
 git tag -a v0.1.0-init -m "Configuración inicial del entorno y documentación"
+
+# Subimos el tag al repositorio remoto
+git push origin v0.1.0-init
 ```
 
 Finalmente, la estructura del entorno pre-configurado del proyecto se muestra a continuación:
@@ -417,7 +421,11 @@ git push # main
 Una vez que ya hemos subido los diagramas UML al repositorio remoto, vamos a crear un \texttt{tag} en la rama \texttt{main} para marcar esta fase de diseño del proyecto, y así poder tener un control de versiones más exhaustivo y poder volver a esta fase en caso de ser necesario. Para ello, ejecutamos el siguiente comando:
 
 ```bash
+# Creamos un tag para marcar la fase de diseño del proyecto
 git tag -a v0.2.0-design -m "Diseño de los diagramas UML del sistema de gestión de mantenimiento de la flota espacial"
+
+# Subimos el tag al repositorio remoto
+git push origin v0.2.0-design
 ```
 
 \newpage
@@ -438,7 +446,7 @@ Comenzaremos la implementación del sistema diseñando la jerarquía de carpetas
 
 \end{itemize}
 
-La configuración final del directorio para el código fuente se detalla a continuación:
+La configuración final del directorio para el código fuente la vemos continuación:
 
 ```text
 src/
@@ -520,6 +528,9 @@ git push # development
 
 # Creamos un tag para marcar la fase de implementación del código fuente
 git tag -a v0.3.0-implementation -m "Implementación del código fuente del sistema de la flota espacial"
+
+# Subimos el tag al repositorio remoto
+git push origin v0.3.0-implementation
 ```
 
 Finalmente, publicamos la documentación de la implementación del código fuente en el repositorio remoto en la rama \texttt{main} para que esté disponible para su consulta, y posteriormente fusionamos los cambios a la rama de desarrollo para mantenerla actualizada con la documentación. Para ello, ejecutamos los siguientes comandos:
@@ -544,3 +555,142 @@ git checkout development
 git merge main
 git push # development
 ```
+
+\newpage
+
+## Realización de Pruebas del Código Fuente con \texttt{pytest}
+
+### Implementación de Tests con \texttt{pytest}
+
+Para garantizar la robustez y fiabilidad del sistema de gestión de mantenimiento de la flota espacial, hemos implementado un conjunto de tests unitarios utilizando el framework \texttt{pytest}. Todo el código relacionado con las pruebas se ha centralizado en el directorio \texttt{tests}, el cual contiene los siguientes archivos clave para el proyecto:
+
+\begin{itemize}[label=$\bullet$, leftmargin=2em]
+
+  \item \textbf{El archivo \texttt{test\_flota.py}:} Contiene los tests unitarios específicos para validar la correcta implementación de la flota espacial, incluyendo la creación de naves, la gestión de repuestos y la interacción entre los diferentes componentes del sistema.
+
+  \item \textbf{El archivo \texttt{\_\_init\_\_.py}:} Este archivo se incluye para que Python reconozca la carpeta \texttt{tests} como un paquete modular, lo que nos permitirá importar las funciones y clases definidas en nuestros tests de forma limpia y estructurada.
+
+\end{itemize}
+
+La configuración final del directorio para los tests unitarios la vemos a continuación:
+
+```
+tests/
+|-- __init__.py          # Archivo para convertir la carpeta tests en un paquete de Python
+`-- test_flota.py        # Tests unitarios para la implementación de la flota espacial
+```
+
+### Ejecución de los Tests con \texttt{pytest}
+
+Para ejecutar los tests unitarios implementados con \texttt{pytest} vamos a situarnos en la raíz del proyecto y ejecutamos el siguiente comando en la terminal:
+
+```bash
+# Desde la raíz del proyecto (pcd_entregable1_alfonso)
+pytest tests/test_flota.py
+```
+
+Y, obtendríamos la siguiente salida en la terminal:
+
+```
+================================================== test session starts ===================================================
+platform darwin -- Python 3.10.11, pytest-8.4.2, pluggy-1.6.0
+Fugue tests will be initialized with options:
+rootdir: /Users/alfonsoandresgimenezsanchez/Desktop/Estudios/Universidad/Cursos/2_Curso/segundo_cuatrimestre/programacion_para_ciencia_de_datos/2025_2026/practicas/entregable_I/pcd_entregable1_alfonso
+plugins: anyio-4.11.0, html-4.0.2, xdist-3.8.0, timeout-2.4.0, metadata-3.1.1, fugue-0.9.1, seleniumbase-4.44.20, ordering-0.6, typeguard-4.4.4, hypothesis-6.142.4, Faker-37.12.0, dash-2.18.2, rerunfailures-16.1, cov-7.0.0
+collected 4 items                                                                                                        
+
+tests/test_flota.py ....                                                                                           [100%]
+
+=================================================== 4 passed in 0.21s ====================================================
+```
+
+También, podemos ver este resultado de la terminal en la siguiente captura de pantalla:
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=1.0\textwidth]{../images/salida_tests.png}
+  \caption{Salida en la Terminal tras Ejecutar los Tests Unitarios con \texttt{pytest}.}
+  \label{fig:salida_tests}
+\end{figure}
+
+\newpage
+
+### Creación del Tag de Pruebas Unitarias
+
+Una vez que ya hemos implementado los tests unitarios y los hemos ejecutado con éxito, vamos a publicar en el repositorio remoto los archivos correspondientes a los tests unitarios y a crear un último \texttt{tag} en la rama \texttt{development} para marcar esta fase de pruebas del proyecto. Para ello, ejecutamos los siguientes comandos:
+
+```bash
+# Confirmamos que estamos en la rama de desarrollo para crear el tag de pruebas
+git checkout development
+
+# Añadimos los archivos de código de los tests unitarios
+git add tests/__init__.py tests/test_flota.py
+
+# Realizamos un commit para subir los tests unitarios al repositorio remoto
+git commit -m "Implementación de tests unitarios con pytest para el sistema de gestión de mantenimiento de la flota espacial"
+
+# Subimos los cambios a la rama development
+git push # development
+
+# Creamos un tag para marcar la fase de pruebas del proyecto
+git tag -a v0.4.0-testing -m "Implementación de tests unitarios con pytest para el sistema de gestión de mantenimiento de la flota espacial"
+
+# Subimos el tag al repositorio remoto
+git push origin v0.4.0-testing
+```
+
+Después de crear el tag vamos a actualizar en el repositorio remoto la documentación en la rama \texttt{main} para incluir la sección de pruebas unitarias, y posteriormente fusionamos los cambios a la rama de desarrollo para mantenerla actualizada con la documentación. Para ello, ejecutamos los siguientes comandos:
+
+```bash
+# Confirmamos que estamos en la rama main para subir la documentación de las pruebas unitarias
+git checkout main
+
+# Añadimos los archivos de la documentación de las pruebas unitarias
+git add docs/data/header_entregable_I.tex docs/interface/entregable_I.pdf docs/interface/entregable_I.qmd docs/images/salida_tests.png
+
+# Realizamos un commit para subir la documentación de las pruebas unitarias al repositorio remoto
+git commit -m "Subiendo la documentación de las pruebas unitarias del sistema de gestión de mantenimiento de la flota espacial"
+
+# Subimos los cambios a la rama main
+git push # main
+
+# Nos desplazamos a la rama de desarrollo
+git checkout development
+
+# Fusionamos los cambios de la rama main a la rama de desarrollo
+git merge main
+git push # development
+```
+
+\newpage
+
+## Cambios Finales y Cierre del Proyecto
+
+Llegados a este punto, ya hemos completado todas las fases del proyecto; desde la preparación del entorno de trabajo, pasando por el diseño de los diagramas UML, hasta la implementación del código fuente y la realización de pruebas unitarias. 
+
+Como paso final, vamos a actualizar el archivo \texttt{README.md} para incluir un resumen del proyecto, la estructura del repositorio y las instrucciones de ejecución. Una vez hecho esto, realizaremos la fusión definitiva basada en la integración de todo el código fuente y los tests de la rama de desarrollo hacia la rama principal. 
+
+Para llevar a cabo esta maniobra final, ejecutamos los siguientes comandos:
+
+```bash
+# Nos situamos en la rama principal y preparamos el README final
+git checkout main
+git add README.md
+git commit -m "Actualización del README.md con instrucciones y estructura final"
+
+# Traemos todo el código y tests desde development hacia main
+git merge development
+git push # main
+```
+
+Finalmente, con la rama \texttt{main} conteniendo la versión absoluta y completa del proyecto (código y documentación), creamos un último \texttt{tag} para marcar la finalización. Esto nos permitirá generar posteriormente una *Release* oficial en GitHub. Ejecutamos los siguientes comandos:
+
+```bash
+# Creamos la etiqueta de la versión final y la publicamos en el repositorio remoto
+git tag -a v1.0.0-final -m "Versión final del proyecto de gestión de mantenimiento de la flota espacial"
+
+# Subimos el tag al repositorio remoto
+git push origin v1.0.0-final
+```
+
+Llegado a estas alturas, damos por finalizado este proyecto de gestión de mantenimiento de la flota espacial.
